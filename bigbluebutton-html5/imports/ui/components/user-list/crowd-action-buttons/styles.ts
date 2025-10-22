@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import { styled } from '@linaria/react';
 import Button from '/imports/ui/components/common/button/component';
 import {
   appsGalleryOutlineColor,
@@ -9,7 +9,6 @@ import {
   fontSizeSmall,
   textFontWeight,
 } from '/imports/ui/stylesheets/styled-components/typography';
-import { ActionButtonProps } from './types';
 
 const ActionButtonsWrapper = styled.div`
   display: flex;
@@ -39,14 +38,13 @@ const ActionButtonLabel = styled.span`
   white-space: nowrap;
 `;
 
-// @ts-ignore - Button is JSX element
-const ActionButton = styled<ActionButtonProps>(Button)`
+const ActionButton = styled(Button)`
   justify-content: center;
   align-items: center;
   height: 3rem;
-  border-radius: 1rem;
-  border: 1px solid ${appsGalleryOutlineColor};
-  background: ${colorGrayUserListToolbar};
+  border-radius: 1rem !important;
+  border: 1px solid ${appsGalleryOutlineColor} !important;
+  background: ${colorGrayUserListToolbar} !important;
 `;
 
 export default {

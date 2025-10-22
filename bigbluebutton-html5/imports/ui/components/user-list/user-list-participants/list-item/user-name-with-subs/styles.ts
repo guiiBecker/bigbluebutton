@@ -1,7 +1,7 @@
-import styled from 'styled-components';
-import { colorGrayDark, colorGrayIcons } from '/imports/ui/stylesheets/styled-components/palette';
+import { styled } from '@linaria/react';
 import { smPaddingX } from '/imports/ui/stylesheets/styled-components/general';
 import { textFontWeight, titlesFontWeight } from '/imports/ui/stylesheets/styled-components/typography';
+import { colorText, colorGrayLabel } from '/imports/ui/stylesheets/styled-components/palette';
 import Icon from '/imports/ui/components/common/icon/icon-ts/component';
 
 const UserNameContainer = styled.div`
@@ -25,7 +25,7 @@ const UserName = styled.span`
   text-overflow: ellipsis;
   white-space: nowrap;
   font-weight: 400;
-  color: ${colorGrayDark};
+  color: ${colorText};
   display: flex;
   flex-direction: row;
 
@@ -43,7 +43,7 @@ const UserNameSub = styled.span`
   margin: 0;
   font-size: 0.75rem;
   font-weight: 400;
-  color: ${colorGrayIcons};
+  color: ${colorGrayLabel};
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

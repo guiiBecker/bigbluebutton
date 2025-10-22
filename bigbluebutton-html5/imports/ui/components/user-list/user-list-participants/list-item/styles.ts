@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import { styled } from '@linaria/react';
 import {
   lgPaddingY,
   smPaddingY,
@@ -8,18 +8,6 @@ import {
   listItemBgHover,
   itemFocusBorder,
 } from '/imports/ui/stylesheets/styled-components/palette';
-import UserAvatar from '/imports/ui/components/user-avatar/component';
-
-interface AvatarProps {
-  moderator?: boolean;
-  presenter?: boolean;
-  talking?: boolean;
-  color?: string;
-  animations?: boolean;
-  emoji?: boolean;
-  avatar?: string;
-  isSkeleton?: boolean;
-}
 
 interface UserItemContentsProps {
   selected?: boolean;
@@ -35,68 +23,40 @@ const UserItemContents = styled.div<UserItemContentsProps>`
   width: 100%;
   overflow: hidden;
   min-height: 3rem;
-
-  ${({ selected }) => selected && `
-    background-color: ${listItemBgHover};
-    border-top-left-radius: ${smPaddingY};
-    border-bottom-left-radius: ${smPaddingY};
-
-    &:focus {
-      box-shadow: inset 0 0 0 ${borderSize} ${itemFocusBorder}, inset 1px 0 0 1px ${itemFocusBorder};
-    }
-  `}
-
-  ${({ isActionsOpen }) => !isActionsOpen && `
-    display: flex;
-    flex-flow: row;
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-
-    [dir="rtl"] & {
-      border-top-left-radius: 0;
-      border-bottom-left-radius: 0;
-      border-top-right-radius: 5px;
-      border-bottom-right-radius: 5px;
-    }
-
-    &:first-child {
-      margin-top: 0;
-    }
-
-    flex-flow: column;
-    flex-shrink: 0;
-  `}
-
-  ${({ isActionsOpen }) => isActionsOpen && `
-    outline: transparent;
-    outline-width: ${borderSize};
-    outline-style: solid;
-    background-color: ${listItemBgHover};
-    box-shadow: inset 0 0 0 ${borderSize} ${itemFocusBorder}, inset 1px 0 0 1px ${itemFocusBorder};
-    border-top-left-radius: ${smPaddingY};
-    border-bottom-left-radius: ${smPaddingY};
-
-    &:focus {
-      outline-style: solid;
-      outline-color: transparent !important;
-    }
-  `}
-
   flex-grow: 0;
   display: flex;
   flex-flow: row;
   border: 3px solid transparent;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+
+  background-color: ${(props) => (props.selected || props.isActionsOpen ? listItemBgHover : 'transparent')};
+  
+  ${(props) => (props.isActionsOpen ? `
+    outline: transparent;
+    outline-width: ${borderSize};
+    outline-style: solid;
+    box-shadow: inset 0 0 0 ${borderSize} ${itemFocusBorder}, inset 1px 0 0 1px ${itemFocusBorder};
+    border-top-left-radius: ${smPaddingY};
+    border-bottom-left-radius: ${smPaddingY};
+  ` : '')}
+
+  &:focus {
+    background-color: ${listItemBgHover};
+    box-shadow: inset 0 0 0 ${borderSize} ${itemFocusBorder}, inset 1px 0 0 1px ${itemFocusBorder};
+    outline: none;
+  }
 
   [dir="rtl"] & {
     padding: ${lgPaddingY} ${lgPaddingY} ${lgPaddingY} 0;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
   }
 `;
 
-// ===== avatar =====
-
-const Avatar = styled(UserAvatar)<AvatarProps>`
+const Avatar = styled.div`
   position: relative;
   text-align: center;
   font-size: .85rem;
@@ -106,9 +66,36 @@ const Avatar = styled(UserAvatar)<AvatarProps>`
   min-width: 2.5rem;
   height: 2.5rem;
   min-height: 2.5rem;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  
+  &[data-moderator="true"] {
+    border-radius: 0.5rem;
+  }
+  
+  &[data-talking="true"] {
+    border: 2px solid #0F70D7;
+    animation: pulse 1s infinite;
+  }
+  
+  &[data-animations="true"] {
+    transition: border 0.3s ease-in-out;
+  }
+  
+  @keyframes pulse {
+    0%, 100% {
+      box-shadow: 0 0 0 0 rgba(15, 112, 215, 0.4);
+    }
+    50% {
+      box-shadow: 0 0 0 4px rgba(15, 112, 215, 0.2);
+    }
+  }
 `;
-
-// ======================== Icon Right Container ========================
 
 const IconRightContainer = styled.div`
   margin: .25rem;

@@ -424,7 +424,7 @@ const TimerPanel: React.FC<TimerPanelProps> = ({
                     onChange={handleHoursChange}
                     onFocus={() => setFocusedUnit('hours')}
                     data-test="hoursInput"
-                    isSelected={!running && focusedUnit === 'hours'}
+                    data-selected={!running && focusedUnit === 'hours' ? 'true' : 'false'}
                   />
                   <Styled.TimeInputColon>:</Styled.TimeInputColon>
                   <Styled.TimerInput
@@ -438,7 +438,7 @@ const TimerPanel: React.FC<TimerPanelProps> = ({
                     onChange={handleMinutesChange}
                     onFocus={() => setFocusedUnit('minutes')}
                     data-test="minutesInput"
-                    isSelected={!running && focusedUnit === 'minutes'}
+                    data-selected={!running && focusedUnit === 'minutes' ? 'true' : 'false'}
                   />
                   <Styled.TimeInputColon>:</Styled.TimeInputColon>
                   <Styled.TimerInput
@@ -452,7 +452,7 @@ const TimerPanel: React.FC<TimerPanelProps> = ({
                     onChange={handleSecondsChange}
                     onFocus={() => setFocusedUnit('seconds')}
                     data-test="secondsInput"
-                    isSelected={!running && focusedUnit === 'seconds'}
+                    data-selected={!running && focusedUnit === 'seconds' ? 'true' : 'false'}
                   />
                 </>
               </Styled.TimeInputGroup>

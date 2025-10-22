@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import { styled } from '@linaria/react';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import { styled as materialStyled } from '@mui/material/styles';
@@ -16,7 +16,6 @@ import {
   colorWhite,
   colorPrimary,
 } from '../../../stylesheets/styled-components/palette';
-import { TextElipsis } from '../../../stylesheets/styled-components/placeholders';
 import Button from '/imports/ui/components/common/button/component';
 import { ScrollboxVertical } from '/imports/ui/stylesheets/styled-components/scrollable';
 import {
@@ -33,14 +32,18 @@ const Separator = styled(BaseSeparator)``;
 const TimerSidebarContent = styled(BasePanelContent)``;
 
 const TimerTitle = styled.div`
-  ${TextElipsis};
+  min-width: 0;
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
   flex: 1;
 
   & > button, button:hover {
     max-width: ${toastContentWidth};
   }
 `;
-// @ts-ignore - JS code
+
 const TimerMinimizeButton = styled(Button)`
   position: relative;
   background-color: ${colorWhite};
@@ -95,11 +98,11 @@ const TimerType = styled.div`
   justify-content: center;
   padding-bottom: 2rem;
 `;
-// @ts-ignore - JS code
+
 const TimerSwitchButton = styled(Button)`
   width: 100%;
   height: 3rem;
-  border-radius: ${lgBorderRadius};
+  border-radius: ${lgBorderRadius} !important;
   margin: 0 .5rem;
 `;
 
@@ -122,15 +125,15 @@ const TimeInputGroup = styled.div`
   justify-content: center;
 `;
 
-// @ts-ignore - JS code
 const IncrementDecrementButton = styled(Button)`
-  border-radius: ${lgBorderRadius};
+  border-radius: 9999px !important;
   width: 2.6rem;
   height: 1.2rem;
   min-width: 0;
   padding: 0;
   font-size: 1rem;
   line-height: 0.9;
+  overflow: hidden;
 `;
 
 const TimeInputColon = styled.span`
@@ -175,7 +178,11 @@ const TimerTrackItem = styled.div`
   ${TimerRow}
 `;
 
-const TimerInput = styled.input<{isSelected: boolean}>`
+interface TimerInputProps {
+  isSelected: boolean;
+}
+
+const TimerInput = styled.input<TimerInputProps>`
   background: none;
   border: none;
   border-bottom: 2px solid #e9e9ed;
@@ -199,10 +206,11 @@ const TimerInput = styled.input<{isSelected: boolean}>`
     outline: none;
     border-bottom: 2px solid ${colorPrimary};
   }
-  ${({ isSelected }) => (isSelected && `
+
+  &[data-selected='true'] {
     outline: none;
-    border-bottom: 2px solid ${colorPrimary};   
-  `)};
+    border-bottom: 2px solid ${colorPrimary};
+  }
 
   &:disabled,
   &[disabled] {
@@ -286,10 +294,9 @@ const ButtonRow = styled.div`
   gap: 1rem;
 `;
 
-// @ts-ignore - JS code
 const ControlButton = styled(Button)`
   flex-grow: 1;
-  border-radius: ${lgBorderRadius};
+  border-radius: ${lgBorderRadius} !important;
   height: 3rem;
   width: 100%;
 `;

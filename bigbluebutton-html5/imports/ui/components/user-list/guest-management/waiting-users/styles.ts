@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import { styled } from '@linaria/react';
 import {
   colorPrimary,
   listItemBgHover,
@@ -30,7 +30,6 @@ import { FormControlLabel, Switch, ButtonBase } from '@mui/material';
 import { styled as materialStyled } from '@mui/material/styles';
 import TextareaAutosize from 'react-autosize-textarea';
 import Button from '@mui/material/Button';
-import UserAvatar from '/imports/ui/components/user-avatar/component';
 
 type ListItemProps = {
   animations: boolean;
@@ -46,10 +45,7 @@ const ListItem = styled.div<ListItemProps>`
   flex-direction: row;
   align-items: center;
   border-radius: 5px;
-
-  ${({ animations }) => animations && `
-    transition: all .3s;
-  `}
+  transition: ${({ animations }) => (animations ? 'all .3s' : 'none')};
 
   &:first-child {
     margin-top: 0;
@@ -120,17 +116,14 @@ const Panel = styled.div<PanelProps>`
   justify-content: flex-start;
   overflow: hidden;
   gap: 1rem;
-
-  ${({ isChrome }) => isChrome && `
-    transform: translateZ(0);
-  `}
+  transform: ${({ isChrome }) => (isChrome ? 'translateZ(0)' : 'none')};
 
   @media ${smallOnly} {
     transform: none !important;
   }
 `;
 
-const Avatar = styled(UserAvatar)`
+const Avatar = styled.div`
   height: 2rem;
   min-height: 2rem;
   width: 2rem;

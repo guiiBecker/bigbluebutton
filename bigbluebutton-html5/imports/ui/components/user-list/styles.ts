@@ -1,12 +1,22 @@
-import styled from 'styled-components';
+/**
+ * 🎨 LINARIA CSS-IN-JS (Build-time)
+ *
+ * This file uses Linaria instead of styled-components.
+ * Styles are extracted to static CSS at build-time, not runtime.
+ *
+ * Generated classes: .u1wauxwn, .p1nrr8bu, .sxoilgo, etc.
+ * CSS output: styles.css (not <style> tags)
+ * Performance: Zero runtime overhead
+ */
+import { styled } from '@linaria/react';
 
 import { FlexColumn } from '/imports/ui/stylesheets/styled-components/placeholders';
 import {
   userListBg,
-  userListText,
-  colorGray,
   listItemBgHover,
   itemFocusBorder,
+  colorText,
+  colorGrayLabel,
 } from '/imports/ui/stylesheets/styled-components/palette';
 import {
   smPaddingX,
@@ -40,7 +50,7 @@ const ScrollableSection = styled(ScrollboxVertical)`
 const UserList = styled(FlexColumn)`
   justify-content: flex-start;
   background-color: ${userListBg};
-  color: ${userListText};
+  color: ${colorText};
   height: 100%;
 `;
 
@@ -49,7 +59,7 @@ const SmallTitle = styled.h2`
   font-weight: 600;
   text-transform: uppercase;
   padding: 0 ${smPaddingX};
-  color: ${colorGray};
+  color: ${colorGrayLabel};
   flex: 1;
   margin: 0;
 `;

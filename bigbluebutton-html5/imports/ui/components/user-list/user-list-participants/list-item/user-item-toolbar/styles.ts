@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import { styled } from '@linaria/react';
 import { colorGrayIcons, colorGrayUserListToolbar } from '/imports/ui/stylesheets/styled-components/palette';
 
 const ToolbarContainer = styled.div`
@@ -11,12 +11,8 @@ const ToolbarContainer = styled.div`
 `;
 
 const ToolbarItem = styled.div<{ disabled?: boolean }>`
-  cursor: pointer;
+  cursor: ${(props) => (props.disabled ? 'not-allowed' : 'pointer')};
   color: ${colorGrayIcons};
-
-  ${({ disabled }) => disabled && `
-    cursor: not-allowed;
-  `}
 `;
 
 const MoreItems = styled.div`

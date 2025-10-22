@@ -55,7 +55,7 @@ const config = {
       },
     }),
     new MiniCssExtractPlugin({
-      filename: 'styles.css',
+      filename: isDev ? 'styles.css' : 'styles.[contenthash].css',
     }),
     new CopyPlugin({
       patterns: [
@@ -90,19 +90,45 @@ const config = {
           enforceExtension: false,
         },
         exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            plugins: [(isDev && hotReload) && require.resolve('react-refresh/babel')].filter(Boolean),
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: [
+                require.resolve('@babel/preset-env'),
+                require.resolve('@babel/preset-typescript'),
+                require.resolve('@babel/preset-react'),
+              ],
+              plugins: [(isDev && hotReload) && require.resolve('react-refresh/babel')].filter(Boolean),
+            },
           },
-        },
+          {
+            loader: require.resolve('@linaria/webpack-loader'),
+            options: {
+              sourceMap: isDev,
+              babelOptions: {
+                presets: [
+                  require.resolve('@babel/preset-env'),
+                  require.resolve('@babel/preset-typescript'),
+                  require.resolve('@babel/preset-react'),
+                  require.resolve('@linaria/babel-preset'),
+                ],
+              },
+            },
+          },
+        ],
       },
       {
         test: /\.css$/,
         use: [
-          'style-loader',
+          {
+            loader: MiniCssExtractPlugin.loader,
+          },
           {
             loader: 'css-loader',
+            options: {
+              sourceMap: isDev,
+            },
           },
           {
             loader: 'postcss-loader',
@@ -154,6 +180,9 @@ if (env === prodEnv) {
     port: 3000,
     hot: true,
     allowedHosts: 'all',
+    static: {
+      directory: path.join(__dirname, 'public'),
+    },
     client: {
       overlay: false,
       webSocketURL: 'auto://0.0.0.0:0/html5client/ws',

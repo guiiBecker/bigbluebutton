@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import { styled } from '@linaria/react';
 import {
   colorPrimary,
   colorWhite,
@@ -34,10 +34,7 @@ const Panel = styled.div<PanelProps>`
   justify-content: flex-start;
   overflow: hidden;
   gap: 1rem;
-
-  ${({ isChrome }) => isChrome && `
-    transform: translateZ(0);
-  `}
+  transform: ${({ isChrome }) => (isChrome ? 'translateZ(0)' : 'none')};
 
   @media ${smallOnly} {
     transform: none !important;

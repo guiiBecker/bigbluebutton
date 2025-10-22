@@ -2,7 +2,6 @@
 import React, { useContext, useState } from 'react';
 import * as PluginSdk from 'bigbluebutton-html-plugin-sdk';
 import { useIntl } from 'react-intl';
-import Auth from '/imports/ui/services/auth';
 import {
   UserListItemAdditionalInformationType,
 } from 'bigbluebutton-html-plugin-sdk/dist/cjs/extensible-areas/user-list-item-additional-information/enums';
@@ -188,18 +187,20 @@ const UserListItem: React.FC<UserListItemProps> = ({
         data-test={user.isModerator ? 'moderatorAvatar' : 'viewerAvatar'}
         data-test-presenter={user.presenter ? '' : undefined}
         data-test-avatar="userAvatar"
-        moderator={user.isModerator}
-        presenter={user.presenter}
-        talking={voiceUser?.talking}
-        muted={voiceUser?.muted}
-        color={user.color}
-        animations={animations}
-        avatar={userAvatarFiltered}
-        you={user.userId === Auth.userID}
+        data-moderator={user.isModerator ? 'true' : 'false'}
+        data-talking={voiceUser?.talking ? 'true' : 'false'}
+        data-animations={animations ? 'true' : 'false'}
+        style={{
+          backgroundColor: user.color,
+          ...(userAvatarFiltered && userAvatarFiltered.length > 0 && (userAvatarFiltered.startsWith('http://') || userAvatarFiltered.startsWith('https://'))
+            ? { backgroundImage: `url(${userAvatarFiltered})` }
+            : {}),
+        }}
       >
         {/* @ts-ignore */}
         <AvatarContent
           user={user}
+          avatarUrl={userAvatarFiltered}
         />
       </Styled.Avatar>
       <UserNameWithSubs

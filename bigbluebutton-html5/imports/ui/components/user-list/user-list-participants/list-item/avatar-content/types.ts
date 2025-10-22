@@ -16,4 +16,5 @@ export interface EmojiProps {
 
 export interface AvatarContentProps {
   user: User,
+  avatarUrl?: string,
 }

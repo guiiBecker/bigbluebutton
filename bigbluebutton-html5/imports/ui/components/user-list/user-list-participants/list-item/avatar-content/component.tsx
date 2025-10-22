@@ -9,7 +9,7 @@ const Emoji: React.FC<EmojiProps> = ({ emoji, native, size }) => (
   <em-emoji emoji={emoji} native={native} size={size} />
 );
 
-const AvatarContent: React.FC<AvatarContentProps> = ({ user }) => {
+const AvatarContent: React.FC<AvatarContentProps> = ({ user, avatarUrl = '' }) => {
   const isReactionsEnabled = useIsReactionsEnabled();
   const emojiIcons = [
     {
@@ -53,13 +53,13 @@ const AvatarContent: React.FC<AvatarContentProps> = ({ user }) => {
     if (user.reactionEmoji && user.reactionEmoji !== 'none') {
       return user.reactionEmoji;
     }
-    if (user.name && user.avatar.length === 0) {
-      return user.name.toLowerCase().slice(0, 2);
+    if (user.name && avatarUrl.length === 0) {
+      return <span style={{ color: '#fff', fontSize: '110%', textTransform: 'capitalize' }}>{user.name.toLowerCase().slice(0, 2)}</span>;
     }
     return '';
   };
 
-  const userAvatarFiltered = (user.raiseHand === true || user.away === true || (user.reactionEmoji && user.reactionEmoji !== 'none')) ? '' : user.avatar;
+  const userAvatarFiltered = (user.raiseHand === true || user.away === true || (user.reactionEmoji && user.reactionEmoji !== 'none')) ? '' : avatarUrl;
   const avatarContent = user.lastBreakoutRoom?.currentlyInRoom && userAvatarFiltered.length === 0
     ? user.lastBreakoutRoom?.sequence
     : getIconUser();
