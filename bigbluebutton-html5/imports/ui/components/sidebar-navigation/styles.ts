@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import { styled } from '@linaria/react';
 import { ListItemProps } from './types';
 import {
   borderSize,
@@ -25,35 +25,47 @@ import Button from '/imports/ui/components/common/button/component';
 
 const smallHeight = '(max-height: 40em)';
 
-const NavigationSidebarBackdrop = styled.div<{animations: boolean, isMobile: boolean, isExpanded: boolean}>`
+const NavigationSidebarBackdrop = styled.div`
   position: absolute;
 
-  ${({ isMobile }) => !isMobile && `
+  &[data-mobile="false"] {
     background-color: ${colorBackground};
     padding: ${navigationSidebarMargin};
-  `}
-  ${({ isMobile, animations }) => isMobile && `
+  }
+  
+  &[data-mobile="true"] {
     background-color: transparent;
-    ${animations && 'transition: height 0.2s ease-out, background-color 0.4s ease-out;'}
-  `}
+  }
+  
+  &[data-mobile="true"][data-animations="true"] {
+    transition: height 0.2s ease-out, background-color 0.4s ease-out;
+  }
 `;
 
-const NavigationSidebar = styled.div<{animations: boolean, isMobile: boolean, isExpanded: boolean}>`
+const NavigationSidebar = styled.div`
   background-color: ${colorWhite};
   border-radius: ${navigationSidebarBorderRadius};
   display: flex;
   flex-direction: column;
   height: 100%;
 
-  ${({ isMobile, isExpanded, animations }) => (isMobile ? `
+  &[data-mobile="true"] {
     gap: 1rem;
     padding-bottom: ${navigationSidebarPaddingY};
     box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-    ${!isExpanded && 'background-color: transparent;'}
-    ${animations && 'transition: background-color 0.2s ease-out;'}
-  ` : `
+  }
+  
+  &[data-mobile="true"][data-expanded="false"] {
+    background-color: transparent;
+  }
+  
+  &[data-mobile="true"][data-animations="true"] {
+    transition: background-color 0.2s ease-out;
+  }
+  
+  &[data-mobile="false"] {
     padding: ${navigationSidebarPaddingY} 0;
-  `)}
+  }
 `;
 
 // @ts-ignore - js component
@@ -61,7 +73,8 @@ const NavigationToggleButton = styled(Button)`
   margin: 0;
   z-index: 3;
   align-self: center;
-  ${({ hasNotification }) => hasNotification && `
+  
+  &[data-has-notification="true"] {
     position: relative;
 
     &:after {
@@ -75,48 +88,45 @@ const NavigationToggleButton = styled(Button)`
       background-color: ${colorDanger};
       border: ${borderSize} solid ${colorGrayDark};
     }
-  `}
+  }
 `;
 
-const NavigationSidebarListItemsContainer = styled(ScrollboxVertical)<{
-  animations: boolean,
-  isMobile: boolean,
-  noVirtualScrollboxBackground: boolean,
-  isExpanded: boolean,
-  enableScrollBar: boolean,
-}>`
+const NavigationSidebarListItemsContainer = styled(ScrollboxVertical)`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   flex-grow: 1;
   border-radius: ${navigationSidebarBorderRadius};
   gap: ${navigationSidebarListItemsContainerGap};
+  
   @media ${smallHeight} {
     gap: 1.25rem;
   }
 
-  ${({ isExpanded }) => (isExpanded ? `
+  &[data-expanded="true"] {
     max-height: 100%;
     opacity: 1;
-  ` : `
+  }
+  
+  &[data-expanded="false"] {
     height: 0;
     opacity: 0;
     background: transparent !important;
-  `)}
+  }
 
-  ${({ noVirtualScrollboxBackground }) => noVirtualScrollboxBackground && `
+  &[data-no-bg="true"] {
     background: transparent !important;
-  `}
+  }
 
-  ${({ isMobile, animations }) => (animations && isMobile && `
+  &[data-mobile="true"][data-animations="true"] {
     transition: height 0.2s ease-out,
      opacity 0.2s ease-out,
      background 0.2s ease-out;
-  `)}
+  }
 
-  ${({ enableScrollBar }) => !enableScrollBar && `
+  &[data-enable-scroll="false"] {
     overflow: hidden;
-  `}
+  }
 `;
 
 const PositionedDiv = styled.div`
@@ -181,18 +191,19 @@ const ListItem = styled.div<ListItemProps>`
     box-shadow: inset 0 0 0 ${borderSize} ${itemFocusBorder}, inset 1px 0 0 1px ${itemFocusBorder};
   }
   
-  ${({ active }: ListItemProps) => active && `
+  &[data-active="true"] {
     outline: transparent;
     outline-style: dotted;
     outline-width: ${borderSize};
     color: ${colorWhite};
     background-color: ${colorPrimary} !important;
+    
     > i {
       color: ${colorWhite} !important;
     }
-  `}
+  }
 
-  ${({ hasNotification }: ListItemProps) => hasNotification && `
+  &[data-has-notification="true"] {
     &:after {
       content: '';
       position: absolute;
@@ -204,7 +215,7 @@ const ListItem = styled.div<ListItemProps>`
       background-color: ${colorDanger};
       border: ${borderSize} solid ${colorGrayDark};
     }
-  `}
+  }
 
   :disabled {
     border: none;
