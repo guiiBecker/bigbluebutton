@@ -76,7 +76,9 @@ const SettingsTabSelector = styled(Tab)`
   cursor: pointer;
   border-radius: 10px;
   margin-block: 1rem;
-  margin-inline: 0 1.5rem;
+  // The start margin is room for the selected tab's shadow (its 4px blur),
+  // which the tab container's overflow would otherwise clip.
+  margin-inline: 4px 1.5rem;
   transition: background-color 0.3s, color 0.3s;
 
   & > span {
